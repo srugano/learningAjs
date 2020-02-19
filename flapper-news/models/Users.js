@@ -35,7 +35,7 @@ UserSchema.methods.generateJWT = function() {
     _id: this._id,
     username: this.username,
     exp: parseInt(exp.getTime() / 1000),
-  }, 'Secret to be changed as environement variable');
+  }, 'Secrettobechangedasenvironementvariable');
 };
 
 mongoose.model('User', UserSchema);
