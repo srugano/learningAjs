@@ -73,6 +73,62 @@ app.factory('posts', ['$http', function($http){
   return o;
 }]);
 
+app.factory('auth', ['$http', '$window', function($http, $window){
+  var auth = {};
+
+  auth.saveToken = function (token){
+    $window.localStorage['flapper-news-token'] = token;
+  };
+
+  auth.getToken = function (){
+    return $window.localStorage['flapper-news-token'];
+  };
+
+  auth.isLoggedIn = function(){
+    /* If a token exists, we'll need to check the payload to see if the token has expired, 
+    otherwise we can assume the user is logged out. The payload is the middle part of the token 
+    between the two .s. It's a JSON object that has been base64'd. We can get it back to a stringified 
+    JSON by using $window.atob(), and then back to a javascript object with JSON.parse */
+    var token = auth.getToken();
+
+    if(token){
+      var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+      return payload.exp > Date.now() / 1000;
+    } else {
+      return false;
+    }
+  };
+
+  auth.currentUser = function(){
+    if(auth.isLoggedIn()){
+      var token = auth.getToken();
+      var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+      return payload.username;
+    }
+  };
+
+  auth.register = function(user){
+    return $http.post('/register', user).success(function(data){
+      auth.saveToken(data.token);
+    });
+  };
+
+  auth.logIn = function(user){
+    return $http.post('/login', user).success(function(data){
+      auth.saveToken(data.token);
+    });
+  };
+
+  auth.logOut = function(){
+    $window.localStorage.removeItem('flapper-news-token');
+  };
+
+
+  return auth;
+}])
+
 app.controller('MainCtrl', [
   '$scope', 'posts' , function ($scope, posts) {
     $scope.posts = posts.posts;

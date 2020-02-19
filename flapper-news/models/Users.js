@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
+mongoose.set('useCreateIndex', true); //https://github.com/Automattic/mongoose/issues/6890#issuecomment-416420234
+
 var UserSchema = new mongoose.Schema({
   username: {type: String, lowercase: true, unique: true},
   hash: String,
