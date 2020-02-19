@@ -6,6 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var mongoose = require('mongoose'); //Connect to our local MongoDB instance by adding the following code into our app.js file
+require('./models/Posts'); //we register that model before our mongoose.connect call
+require('./models/Comments');
+mongoose.connect('mongodb://localhost/news', {useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('DB Connected!'))
+.catch(err => {
+console.log(Error, err.message);
+});
 
 var app = express();
 
