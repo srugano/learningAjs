@@ -15,11 +15,11 @@ UserSchema.methods.setPassword = function(password){
   /* The pbkdf2Sync() function takes four parameters: password, salt, iterations, and key length.
    We'll need to make sure the iterations and key length in our setPassword()
     method match the ones in our validPassword() method */
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
 };
 
 UserSchema.methods.validPassword = function(password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
 
   return this.hash === hash;
 };

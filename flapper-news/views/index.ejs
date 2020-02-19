@@ -46,8 +46,6 @@
             <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
             <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
             <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -61,7 +59,7 @@
       <div class="page-header">
         <h1>Flapper News</h1>
       </div>
-      <div ng-repeat="post in posts | orderBy: '-upvotes'" class="row">
+      <div ng-repeat="post in posts | orderBy: '-upvotes'">
         <span ng-click="incrementUpvotes(post)" class="glyphicon glyphicon-thumbs-up"></span>
         {{post.upvotes}}
         <span style="font-size:20px; margin-left:10px;">
@@ -128,6 +126,9 @@
       </div>
       <button type="submit" class="btn btn-primary">Post</button>
     </form>
+    <div ng-hide="isLoggedIn()">
+      <h3>You need to <a href="/#/login">Log In</a> or <a href="/#/register">Register</a> before you can comment.</h3>
+    </div>
   </script>
   <script type="text/ng-template" id="/register.html">
     <div class="page-header">

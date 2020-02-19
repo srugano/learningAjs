@@ -2,7 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var jwt = require('express-jwt');
 
-var auth = jwt({secret: 'Secret to be changed as environement variable', userProperty: 'payload'});
+var auth = jwt({secret: 'Secrettobechangedasenvironementvariable', userProperty: 'payload'});
 
 var router = express.Router();
 
